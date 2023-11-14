@@ -1,1 +1,5 @@
-db_data
+# игнорировать каталоги
+.git
+.idea
+node_modules
+vendor
