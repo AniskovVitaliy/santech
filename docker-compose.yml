@@ -1,0 +1,64 @@
+version: '3.5'
+
+services:
+
+  web:
+    image: 'nginx:stable'
+    volumes:
+      - './:/var/www'
+      - './docker/nginx/conf.d/:/etc/nginx/conf.d/'
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+    container_name: cn_nginx
+    networks:
+      - appnet
+
+  php:
+    build:
+      dockerfile: './docker/php/Dockerfile'
+    volumes:
+      - './:/var/www'
+    environment:
+      - 'PHP_IDE_CONFIG=serverName=santechdebug'
+    depends_on:
+      - db
+    container_name: cn_php
+    networks:
+      - appnet
+
+  db:
+    image: 'mysql:8.0'
+    restart: always
+    volumes:
+      - './db_data:/var/lib/mysql'
+    ports:
+      - "3305:3306"
+    environment:
+      MYSQL_DATABASE: 'santech'
+      MYSQL_ROOT_PASSWORD: 'root'
+    command: 'mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci'
+    container_name: cn_db
+    networks:
+      - appnet
+
+  phpmyadmin:
+    image: 'phpmyadmin'
+    restart: always
+    ports:
+      - "9090:9090"
+    environment:
+      - 'PMA_ARBITRARY=1'
+    depends_on:
+      - db
+    container_name: cn_admin
+    networks:
+      - appnet
+
+volumes:
+  opencart_db_data:
+networks:
+  appnet:
+    name: appnet
+    driver: bridge
