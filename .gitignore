@@ -13,8 +13,6 @@
 .htpasswd
 
 db_data/
-storage/
-storage_/
 
 /vendor/*
 /node_modules/*
