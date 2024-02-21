@@ -8,7 +8,7 @@
 /.vscode
 /public_html/admin/config.php
 /public_html/config.php
-/public_html/image/*
+
 .htaccess
 .htpasswd
 
