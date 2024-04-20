@@ -9,6 +9,10 @@
 /public_html/admin/config.php
 /public_html/config.php
 
+storage/
+storage_/
+image/
+
 .htaccess
 .htpasswd
 
