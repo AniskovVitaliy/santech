@@ -1,0 +1,191 @@
+{{ header }}{{ column_left }}
+<div id="content">
+
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <button type="submit" form="form-parser" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+            </div>
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+
+        {% if success %}
+            {% for item in success %}
+                {% if item.unique %}
+                    <div class="alert alert-success alert-dismissible">
+                        <i class="fa fa-check-circle"></i>
+                        Успешно, строка ({{ item.xlsx_line }}) была "добавлена". Товар в DB (product_id : {{ item.product_id }})
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info alert-dismissible">
+                        <i class="fa fa-info-circle"></i>
+                        Строка ({{ item.xlsx_line }}) была пропущена, так как товар с таким значением в поле "model" уже существует (product_id : {{ item.product_id }})
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if error %}
+            {% for item in error %}
+                <div class="alert alert-danger alert-dismissible">
+                    <i class="fa fa-exclamation-circle"></i>
+                    Ошибка, строка ({{ item.xlsx_line }}) : [{{ item.name }} {{ item.meta_title }} {{ item.model }}]
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_form_table }}</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-parser">
+
+                    <ul class="nav nav-tabs">
+                        {% for table_name, table_value in db_tables %}
+                            <li {% if table_name == 'product' %}class="active"{% endif %}>
+                                <a href="#{{ table_name }}" data-toggle="tab" aria-expanded="true">{{ table_name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="tab-content">
+                        {% for table_name, table_values in db_tables %}
+
+                            <div class="tab-pane {% if table_name == 'product' %}active{% endif %}" id="{{ table_name }}">
+
+                                <h2 style="color: #1e91cf;">{{ table_name }}</h2>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+
+                                        <thead>
+                                            <tr>
+                                                <td class="text-left">Поля из DB</td>
+                                                <td class="text-left">Поля из xlsx</td>
+                                                <td class="text-right">Удаление</td>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for key, table_field in table_values %}
+
+                                            <tr>
+
+                                                <td class="text-left">
+                                                    {% if table_name == 'product_attribute' %}
+                                                        <label> {{ table_field.attribute_group_name }} -> {{ table_field.attribute_name }}
+                                                            <input type="text" name="db[{{ table_name }}][{{ table_field.attribute_id }}]" value="" style="display: none" readonly>
+                                                        </label>
+                                                    {% elseif table_name == 'product_filter' %}
+                                                        <label> {{ table_field.name }}
+                                                            <input type="text" name="db[{{ table_name }}][{{ table_field.filter_group_id }}]" value="" style="display: none" readonly>
+                                                        </label>
+                                                    {% else %}
+                                                        <label> {{ table_field }}
+                                                            <input type="text" name="db[{{ table_name }}][{{ table_field }}]" value="" style="display: none" readonly>
+                                                        </label>
+                                                    {% endif %}
+                                                </td>
+
+                                                <td class="text-left">
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            {% if table_name == 'product_attribute' %}
+                                                                <select name="xlsx[{{ table_name }}][{{ table_field.attribute_id }}]" class="form-control">
+                                                                    <option value="">Default</option>
+                                                                    {% for key, field in xlsx_fields %}
+
+                                                                        {% if post_xlsx_data[table_name][table_field.attribute_id] == key %}
+                                                                            <option value="{{ key }}" selected>{{ field }}</option>
+                                                                        {% else %}
+                                                                            <option value="{{ key }}">{{ field }}</option>
+                                                                        {% endif %}
+
+                                                                    {% endfor %}
+                                                                </select>
+                                                            {% elseif table_name == 'product_filter' %}
+                                                                <select name="xlsx[{{ table_name }}][{{ table_field.filter_group_id }}]" class="form-control">
+                                                                    <option value="">Default</option>
+                                                                    {% for key, field in xlsx_fields %}
+
+                                                                        {% if post_xlsx_data[table_name][table_field.filter_group_id] == key %}
+                                                                            <option value="{{ key }}" selected>{{ field }}</option>
+                                                                        {% else %}
+                                                                            <option value="{{ key }}">{{ field }}</option>
+                                                                        {% endif %}
+
+                                                                    {% endfor %}
+                                                                </select>
+                                                            {% else %}
+                                                                <select name="xlsx[{{ table_name }}][{{ table_field }}]" class="form-control">
+                                                                    <option value="">Default</option>
+                                                                    {% for key, field in xlsx_fields %}
+
+                                                                        {% if post_xlsx_data[table_name][table_field] == key %}
+                                                                            <option value="{{ key }}" selected>{{ field }}</option>
+                                                                        {% else %}
+                                                                            <option value="{{ key }}">{{ field }}</option>
+                                                                        {% endif %}
+
+                                                                    {% endfor %}
+                                                                </select>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Свое значение">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="text-right">
+                                                    <span class="form-download-exel-delete" style="cursor: pointer; color: red;">Удалить</span>
+                                                </td>
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{{ footer }}
+<script>
+    $('.form-download-exel-delete').on('click', function (e) {
+        $(this).parent().parent().remove();
+    });
+
+    $('span.btn.btn-primary').on('click', function (e) {
+        let input_block = $(this).parent().parent().children().first();
+        let input = `<input type="text" name="${input_block.children().attr('name')}" value="" placeholder="введите свое значение" class="form-control">`;
+
+        input_block.children().remove();
+        input_block.append(input)
+    });
+</script>
