@@ -6,10 +6,10 @@ class ModelCatalogParser extends Model
     {
         $result = [];
 
-        $query = "SELECT * FROM " . DB_PREFIX . "$table_name LIMIT 1";
+        $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . DB_PREFIX . $table_name. "'";
 
-        foreach ($this->db->query($query)->row as $key => $value) {
-            $result[] = $key;
+        foreach ($this->db->query($query)->rows as $key => $value) {
+            $result[] = $value['COLUMN_NAME'];
         }
 
         return $result;
@@ -58,6 +58,9 @@ class ModelCatalogParser extends Model
             return ['unique' => false, 'product_id' => $query->row['product_id']];
         }
 
+        $manufacturer = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer WHERE " . DB_PREFIX . "manufacturer.name = '" . $item['product']['manufacturer_id'] . "'");
+        $manufacturer_id = $manufacturer->num_rows ? (int)$manufacturer->row['manufacturer_id'] : 0;
+
         $product_query = "INSERT INTO " . DB_PREFIX . "product 
                             SET model = '" . $this->db->escape($item['product']['model']) . "',
                                 sku = '" . $this->db->escape($item['product']['sku']) . "', 
@@ -72,7 +75,7 @@ class ModelCatalogParser extends Model
                                 subtract = '" . (isset($item['product']['subtract']) ? (int)$item['product']['subtract'] : 1) . "', 
                                 stock_status_id = '" . (isset($item['product']['stock_status_id']) ? (int)$item['product']['stock_status_id'] : 7) . "', 
                                 date_available = '" . $this->db->escape($item['product']['date_available'] ?? date('Y-m-d')) . "', 
-                                manufacturer_id = '" . (isset($item['product']['manufacturer_id']) ? (int)$item['product']['manufacturer_id'] : 0) . "', 
+                                manufacturer_id = '" . $manufacturer_id . "', 
                                 shipping = '" . (isset($item['product']['shipping']) ? (int)$item['product']['shipping'] : 1) . "', 
                                 price = '" . (isset($item['product']['price']) ? (float)$item['product']['price'] : 0) . "', 
                                 points = '" . (isset($item['product']['points']) ? (int)$item['product']['points'] : 0) . "', 
@@ -128,8 +131,10 @@ class ModelCatalogParser extends Model
             $image = array_shift($images);
 
             if (!empty($image)) {
+                $image = file_exists(DIR_IMAGE . 'catalog/demo/goods/' . trim($image)) ? trim($image) : '';
+
                 $product_image_query = "UPDATE " . DB_PREFIX . "product
-                                        SET image = 'catalog/demo/goods/" . $this->db->escape(trim($image)) . "'
+                                        SET image = 'catalog/demo/goods/" . $this->db->escape($image) . "'
                                         WHERE product_id = '" . (int)$product_id . "'";
 
                 $this->db->query($product_image_query);
@@ -137,9 +142,11 @@ class ModelCatalogParser extends Model
 
             if (!empty($images)) {
                 foreach ($images as $key => $img) {
+                    $img = file_exists(DIR_IMAGE . 'catalog/demo/goods/' . trim($img)) ? trim($img) : '';
+
                     $products_image_query = "INSERT INTO " . DB_PREFIX . "product_image
                             SET product_id = '" . (int)$product_id . "',
-                                image = 'catalog/demo/goods/" . $this->db->escape(trim($img)) . "',
+                                image = 'catalog/demo/goods/" . $this->db->escape($img) . "',
                                 sort_order = '" . (int)$key . "'";
 
                     $this->db->query($products_image_query);
@@ -172,7 +179,7 @@ class ModelCatalogParser extends Model
 
                 if(!$filter_name) continue;
 
-                $filter_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "filter_description WHERE " . DB_PREFIX . "filter_description.language_id = 1 AND " . DB_PREFIX . "filter_description.filter_group_id = " . $filter_group_id . " AND " . DB_PREFIX . "filter_description.name = '". $filter_name ."'")->row;
+                $filter_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "filter_description WHERE " . DB_PREFIX . "filter_description.language_id = 1 AND " . DB_PREFIX . "filter_description.filter_group_id = " . $filter_group_id . " AND " . DB_PREFIX . "filter_description.name = '". trim($filter_name) ."'")->row;
 
                 $product_filter_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_filter WHERE " . DB_PREFIX . "product_filter.product_id = " . $product_id . " AND " . DB_PREFIX . "product_filter.filter_id = " . $filter_query['filter_id']);
 
