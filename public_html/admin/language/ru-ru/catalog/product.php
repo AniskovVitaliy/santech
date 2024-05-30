@@ -24,6 +24,7 @@ $_['column_image']           = 'Изображения';
 $_['column_price']           = 'Цена на сайте';
 $_['column_quantity']        = 'Количество';
 $_['column_status']          = 'Статус';
+$_['column_date']            = 'Дата модиф.';
 $_['column_action']          = 'Действие';
 
 // Entry
