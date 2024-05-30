@@ -54,9 +54,7 @@ class ModelCatalogParser extends Model
     {
         $query = $this->db->query("SELECT product_id FROM " . DB_PREFIX . "product WHERE model = '" . $this->db->escape($item['product']['model']) . "'");
 
-        if ($query->num_rows) {
-            return ['unique' => false, 'product_id' => $query->row['product_id']];
-        }
+        if ($query->num_rows) return ['unique' => false, 'product_id' => $query->row['product_id']];
 
         $manufacturer = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer WHERE " . DB_PREFIX . "manufacturer.name = '" . $item['product']['manufacturer_id'] . "'");
         $manufacturer_id = $manufacturer->num_rows ? (int)$manufacturer->row['manufacturer_id'] : 0;
