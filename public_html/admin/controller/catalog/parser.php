@@ -127,6 +127,43 @@ class ControllerCatalogParser extends Controller
         $data['db_tables']['product_attribute'] = $this->model_catalog_parser->getAttributes();
         $data['db_tables']['product_filter'] = $this->model_catalog_parser->getFilters();
 
+        $data['exception_columns']['product'] = [
+            'product_id',
+            'date_added',
+            'date_available',
+            'date_modified',
+            'sku',
+            'upc',
+            'ean',
+            'jan',
+            'isbn',
+            'mpn',
+            'location',
+            'tax_class_id',
+            'weight',
+            'weight_class_id',
+            'length',
+            'length_class_id',
+            'width',
+            'height',
+            'subtract',
+            'minimum',
+            'viewed',
+            'points',
+            'shipping',
+            'sort_order',
+
+        ];
+
+        $data['exception_columns']['product_description'] = [
+            'product_id',
+            'language_id'
+        ];
+
+        $data['exception_columns']['product_to_category'] = [
+            'product_id',
+        ];
+
         $data['xlsx_fields'] = $xlsx['fields'];
 
         if (isset($this->request->post['xlsx'])) {

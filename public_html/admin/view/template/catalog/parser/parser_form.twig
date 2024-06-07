@@ -4,8 +4,10 @@
     <div class="page-header">
         <div class="container-fluid">
             <div class="pull-right">
-                <button type="submit" form="form-parser" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
-                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+                <button type="submit" form="form-parser" data-toggle="tooltip" title="{{ button_save }}"
+                        class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i
+                            class="fa fa-reply"></i></a>
             </div>
             <h1>{{ heading_title }}</h1>
             <ul class="breadcrumb">
@@ -23,13 +25,15 @@
                 {% if item.unique %}
                     <div class="alert alert-success alert-dismissible">
                         <i class="fa fa-check-circle"></i>
-                        Успешно, строка ({{ item.xlsx_line }}) была "добавлена". Товар в DB (product_id : {{ item.product_id }})
+                        Успешно, строка ({{ item.xlsx_line }}) была "добавлена". Товар в DB (product_id
+                        : {{ item.product_id }})
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                     </div>
                 {% else %}
                     <div class="alert alert-info alert-dismissible">
                         <i class="fa fa-info-circle"></i>
-                        Строка ({{ item.xlsx_line }}) была пропущена, так как товар с таким значением в поле "model" уже существует (product_id : {{ item.product_id }})
+                        Строка ({{ item.xlsx_line }}) была пропущена, так как товар с таким значением в поле "model" уже
+                        существует (product_id : {{ item.product_id }})
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                     </div>
                 {% endif %}
@@ -64,7 +68,8 @@
                     <div class="tab-content">
                         {% for table_name, table_values in db_tables %}
 
-                            <div class="tab-pane {% if table_name == 'product' %}active{% endif %}" id="{{ table_name }}">
+                            <div class="tab-pane {% if table_name == 'product' %}active{% endif %}"
+                                 id="{{ table_name }}">
 
                                 <h2 style="color: #1e91cf;">{{ table_name }}</h2>
 
@@ -72,30 +77,45 @@
                                     <table class="table table-bordered table-hover">
 
                                         <thead>
-                                            <tr>
-                                                <td class="text-left">Поля из DB</td>
-                                                <td class="text-left">Поля из xlsx</td>
-                                                <td class="text-right">Удаление</td>
-                                            </tr>
+                                        <tr>
+                                            <td class="text-left">Поля из DB</td>
+                                            <td class="text-left">Поля из xlsx</td>
+                                            <td class="text-right">Удаление</td>
+                                        </tr>
                                         </thead>
 
                                         <tbody>
                                         {% for key, table_field in table_values %}
 
-                                            <tr>
+                                            {% set exception = false %}
+
+                                            {% if table_name in ['product', 'product_description', 'product_to_category'] %}
+                                                {% if table_field in exception_columns[table_name] %}
+                                                    {% set exception = true %}
+                                                {% endif %}
+                                            {% endif %}
+
+                                            <tr {% if exception %} style="display: none" {% endif %}>
 
                                                 <td class="text-left">
                                                     {% if table_name == 'product_attribute' %}
-                                                        <label> {{ table_field.attribute_group_name }} -> {{ table_field.attribute_name }}
-                                                            <input type="text" name="db[{{ table_name }}][{{ table_field.attribute_id }}]" value="" style="display: none" readonly>
+                                                        <label> {{ table_field.attribute_group_name }}
+                                                            -> {{ table_field.attribute_name }}
+                                                            <input type="text"
+                                                                   name="db[{{ table_name }}][{{ table_field.attribute_id }}]"
+                                                                   value="" style="display: none" readonly>
                                                         </label>
                                                     {% elseif table_name == 'product_filter' %}
                                                         <label> {{ table_field.name }}
-                                                            <input type="text" name="db[{{ table_name }}][{{ table_field.filter_group_id }}]" value="" style="display: none" readonly>
+                                                            <input type="text"
+                                                                   name="db[{{ table_name }}][{{ table_field.filter_group_id }}]"
+                                                                   value="" style="display: none" readonly>
                                                         </label>
                                                     {% else %}
                                                         <label> {{ table_field }}
-                                                            <input type="text" name="db[{{ table_name }}][{{ table_field }}]" value="" style="display: none" readonly>
+                                                            <input type="text"
+                                                                   name="db[{{ table_name }}][{{ table_field }}]"
+                                                                   value="" style="display: none" readonly>
                                                         </label>
                                                     {% endif %}
                                                 </td>
@@ -104,12 +124,14 @@
                                                     <div class="row">
                                                         <div class="col-md-10">
                                                             {% if table_name == 'product_attribute' %}
-                                                                <select name="xlsx[{{ table_name }}][{{ table_field.attribute_id }}]" class="form-control">
+                                                                <select name="xlsx[{{ table_name }}][{{ table_field.attribute_id }}]"
+                                                                        class="form-control">
                                                                     <option value="">Default</option>
                                                                     {% for key, field in xlsx_fields %}
 
                                                                         {% if post_xlsx_data[table_name][table_field.attribute_id] == key %}
-                                                                            <option value="{{ key }}" selected>{{ field }}</option>
+                                                                            <option value="{{ key }}"
+                                                                                    selected>{{ field }}</option>
                                                                         {% else %}
                                                                             <option value="{{ key }}">{{ field }}</option>
                                                                         {% endif %}
@@ -117,12 +139,14 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             {% elseif table_name == 'product_filter' %}
-                                                                <select name="xlsx[{{ table_name }}][{{ table_field.filter_group_id }}]" class="form-control">
+                                                                <select name="xlsx[{{ table_name }}][{{ table_field.filter_group_id }}]"
+                                                                        class="form-control">
                                                                     <option value="">Default</option>
                                                                     {% for key, field in xlsx_fields %}
 
                                                                         {% if post_xlsx_data[table_name][table_field.filter_group_id] == key %}
-                                                                            <option value="{{ key }}" selected>{{ field }}</option>
+                                                                            <option value="{{ key }}"
+                                                                                    selected>{{ field }}</option>
                                                                         {% else %}
                                                                             <option value="{{ key }}">{{ field }}</option>
                                                                         {% endif %}
@@ -130,12 +154,14 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             {% else %}
-                                                                <select name="xlsx[{{ table_name }}][{{ table_field }}]" class="form-control">
+                                                                <select name="xlsx[{{ table_name }}][{{ table_field }}]"
+                                                                        class="form-control">
                                                                     <option value="">Default</option>
                                                                     {% for key, field in xlsx_fields %}
 
                                                                         {% if post_xlsx_data[table_name][table_field] == key %}
-                                                                            <option value="{{ key }}" selected>{{ field }}</option>
+                                                                            <option value="{{ key }}"
+                                                                                    selected>{{ field }}</option>
                                                                         {% else %}
                                                                             <option value="{{ key }}">{{ field }}</option>
                                                                         {% endif %}
@@ -145,7 +171,8 @@
                                                             {% endif %}
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <span data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Свое значение">
+                                                            <span data-toggle="tooltip" title="" class="btn btn-primary"
+                                                                  data-original-title="Свое значение">
                                                                 <i class="fa fa-pencil"></i>
                                                             </span>
                                                         </div>
@@ -153,10 +180,12 @@
                                                 </td>
 
                                                 <td class="text-right">
-                                                    <span class="form-download-exel-delete" style="cursor: pointer; color: red;">Удалить</span>
+                                                    <span class="form-download-exel-delete"
+                                                          style="cursor: pointer; color: red;">Удалить</span>
                                                 </td>
 
                                             </tr>
+
                                         {% endfor %}
                                         </tbody>
 
