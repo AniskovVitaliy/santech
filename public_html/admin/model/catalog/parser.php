@@ -223,6 +223,10 @@ class ModelCatalogParser extends Model
 
                 $filter_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "filter_description WHERE " . DB_PREFIX . "filter_description.language_id = 1 AND " . DB_PREFIX . "filter_description.filter_group_id = " . $filter_group_id . " AND " . DB_PREFIX . "filter_description.name = '". trim($filter_name) ."'")->row;
 
+                if (empty($filter_query)) {
+                    $this->log->write('Фильтр по имени: ' . $filter_name . '. не найден!');
+                }
+
                 $product_filter_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_filter WHERE " . DB_PREFIX . "product_filter.product_id = " . $product_id . " AND " . DB_PREFIX . "product_filter.filter_id = " . $filter_query['filter_id']);
 
                 if (!$product_filter_query->num_rows) {

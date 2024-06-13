@@ -83,6 +83,9 @@ class ControllerCatalogParser extends Controller
                 $product_data = $this->prepareData($form_data, $xlsx_item);
 
                 if ($this->validateForm($product_data, $xlsx_line)) {
+                    $product_data['product_attribute'] = array_diff($product_data['product_attribute'], [null]);
+                    $product_data['product_filter'] = array_diff($product_data['product_filter'], [null]);
+
                     $success = $this->model_catalog_parser->addProduct($product_data);
                     $success['xlsx_line'] = $xlsx_line;
                     $this->success[] = $success;
