@@ -173,7 +173,7 @@ class ModelCatalogParser extends Model
             $image = array_shift($images);
 
             if (!empty($image)) {
-                $image = file_exists(DIR_IMAGE . 'catalog/demo/goods/' . trim($image)) ? trim($image) : '';
+                //$image = file_exists(DIR_IMAGE . 'catalog/demo/goods/' . trim($image)) ? trim($image) : '';
 
                 $product_image_query = "UPDATE " . DB_PREFIX . "product
                                         SET image = 'catalog/demo/goods/" . $this->db->escape($image) . "'

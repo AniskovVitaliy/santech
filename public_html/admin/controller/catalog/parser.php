@@ -62,6 +62,8 @@ class ControllerCatalogParser extends Controller
 
     public function add()
     {
+        set_time_limit(1000);
+
         $this->load->model('catalog/parser');
         $this->load->language('catalog/parser');
 
