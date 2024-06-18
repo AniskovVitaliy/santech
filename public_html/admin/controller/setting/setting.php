@@ -59,6 +59,12 @@ class ControllerSettingSetting extends Controller {
 			$data['error_telephone'] = '';
 		}
 
+        if (isset($this->error['telephone_second'])) {
+            $data['error_telephone_second'] = $this->error['telephone_second'];
+        } else {
+            $data['error_telephone_second'] = '';
+        }
+
 		if (isset($this->error['meta_title'])) {
 			$data['error_meta_title'] = $this->error['meta_title'];
 		} else {
@@ -252,6 +258,12 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['config_telephone'] = $this->config->get('config_telephone');
 		}
+
+        if (isset($this->request->post['config_telephone_second'])) {
+            $data['config_telephone'] = $this->request->post['config_telephone_second'];
+        } else {
+            $data['config_telephone_second'] = $this->config->get('config_telephone_second');
+        }
 		
 		if (isset($this->request->post['config_fax'])) {
 			$data['config_fax'] = $this->request->post['config_fax'];
@@ -936,6 +948,10 @@ class ControllerSettingSetting extends Controller {
 		if ((utf8_strlen($this->request->post['config_telephone']) < 3) || (utf8_strlen($this->request->post['config_telephone']) > 32)) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
+
+        if ((utf8_strlen($this->request->post['config_telephone_second']) < 3) || (utf8_strlen($this->request->post['config_telephone_second']) > 32)) {
+            $this->error['telephone_second'] = $this->language->get('error_telephone');
+        }
 
 		if (!empty($this->request->post['config_customer_group_display']) && !in_array($this->request->post['config_customer_group_id'], $this->request->post['config_customer_group_display'])) {
 			$this->error['customer_group_display'] = $this->language->get('error_customer_group_display');
