@@ -16,6 +16,14 @@ class ControllerCommonFooter extends Controller {
 			}
 		}
 
+        $data['address'] = nl2br($this->config->get('config_address'));
+        $data['telephone'] = $this->config->get('config_telephone');
+        $data['telephone_clear'] = preg_replace('/[^\d]+/ui', '', $this->config->get('config_telephone'));
+        $data['telephone_second'] = $this->config->get('config_telephone_second');
+        $data['telephone_second_clear'] = preg_replace('/[^\d]+/ui', '', $this->config->get('config_telephone_second'));
+
+        $data['email'] = $this->config->get('config_email');
+
 		$data['contact'] = $this->url->link('information/contact');
 		$data['return'] = $this->url->link('account/return/add', '', true);
 		$data['sitemap'] = $this->url->link('information/sitemap');
