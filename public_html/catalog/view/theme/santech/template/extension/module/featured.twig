@@ -18,7 +18,14 @@
           {% endfor %}
         </div>
         {% endif %}
-        {% if product.price %}
+        <ul class="list-unstyled">
+          {% if product.attributes.0.attribute %}
+            {% for attribute in product.attributes.0.attribute %}
+              <li><span style="text-decoration: underline">{{ attribute.name }}</span> : {{ attribute.text }}</li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+{#        {% if product.price %}#}
 {#        <p class="price">#}
 {#          {% if not product.special %}#}
 {#          {{ product.price }}#}
@@ -29,7 +36,7 @@
 {#          <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>#}
 {#          {% endif %}#}
 {#        </p>#}
-        {% endif %}
+{#        {% endif %}#}
       </div>
       <div class="button-group">
 {#        <button type="button" onclick="cart.add('{{ product.product_id }}');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>#}

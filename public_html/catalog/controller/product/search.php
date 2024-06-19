@@ -222,6 +222,7 @@ class ControllerProductSearch extends Controller {
 				}
 
 				$data['products'][] = array(
+                    'attributes'  => $this->model_catalog_product->getProductAttributes($result['product_id']),
                     'model'       => $result['model'],
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,

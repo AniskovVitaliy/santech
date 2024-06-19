@@ -53,6 +53,7 @@ class ControllerExtensionModuleFeatured extends Controller {
 					}
 
 					$data['products'][] = array(
+                        'attributes'  => $this->model_catalog_product->getProductAttributes($product_info['product_id']),
                         'model'       => $product_info['model'],
 						'product_id'  => $product_info['product_id'],
 						'thumb'       => $image,
