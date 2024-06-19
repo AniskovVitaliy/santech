@@ -196,6 +196,7 @@ class ControllerProductCategory extends Controller {
 				}
 
 				$data['products'][] = array(
+                    'model'       => $result['model'],
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
 					'name'        => $result['name'],

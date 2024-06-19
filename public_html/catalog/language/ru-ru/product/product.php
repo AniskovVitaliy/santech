@@ -3,7 +3,7 @@
 $_['text_search']              = 'Поиск';
 $_['text_brand']               = 'Производитель';
 $_['text_manufacturer']        = 'Производитель:';
-$_['text_model']               = 'Модель:';
+$_['text_model']               = 'Код товара:';
 $_['text_reward']              = 'Бонусные баллы:';
 $_['text_points']              = 'Цена в бонусных баллах:';
 $_['text_stock']               = 'Наличие:';
@@ -41,7 +41,7 @@ $_['entry_bad']                = 'Плохо';
 
 // Tabs
 $_['tab_description']          = 'Описание';
-$_['tab_attribute']            = 'Характеристики';
+$_['tab_attribute']            = 'Атрибуты';
 $_['tab_review']               = 'Отзывов (%s)';
 
 // Error

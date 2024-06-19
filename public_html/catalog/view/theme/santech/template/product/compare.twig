@@ -38,17 +38,17 @@
             {% for product in products %}
             <td class="text-center">{% if product.thumb %} <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /> {% endif %}</td>
             {% endfor %} </tr>
-          <tr>
-            <td>{{ text_price }}</td>
-            {% for product in products %}
-            <td>{% if product.price %}
-              {% if not product.special %}
-              {{ product.price }}
-              {% else %} <strike>{{ product.price }}</strike> {{ product.special }}
-              {% endif %}
-              {% endif %}</td>
-            {% endfor %} </tr>
-          <tr>
+{#          <tr>#}
+{#            <td>{{ text_price }}</td>#}
+{#            {% for product in products %}#}
+{#            <td>{% if product.price %}#}
+{#              {% if not product.special %}#}
+{#              {{ product.price }}#}
+{#              {% else %} <strike>{{ product.price }}</strike> {{ product.special }}#}
+{#              {% endif %}#}
+{#              {% endif %}</td>#}
+{#            {% endfor %} </tr>#}
+{#          <tr>#}
             <td>{{ text_model }}</td>
             {% for product in products %}
             <td>{{ product.model }}</td>
@@ -58,11 +58,11 @@
             {% for product in products %}
             <td>{{ product.manufacturer }}</td>
             {% endfor %} </tr>
-          <tr>
-            <td>{{ text_availability }}</td>
-            {% for product in products %}
-            <td>{{ product.availability }}</td>
-            {% endfor %} </tr>
+{#          <tr>#}
+{#            <td>{{ text_availability }}</td>#}
+{#            {% for product in products %}#}
+{#            <td>{{ product.availability }}</td>#}
+{#            {% endfor %} </tr>#}
         {% if review_status %}
         <tr>
           <td>{{ text_rating }}</td>
@@ -73,11 +73,11 @@
             {{ product.reviews }}</td>
           {% endfor %} </tr>
         {% endif %}
-        <tr>
-          <td>{{ text_summary }}</td>
-          {% for product in products %}
-          <td class="description">{{ product.description }}</td>
-          {% endfor %} </tr>
+{#        <tr>#}
+{#          <td>{{ text_summary }}</td>#}
+{#          {% for product in products %}#}
+{#          <td class="description">{{ product.description }}</td>#}
+{#          {% endfor %} </tr>#}
         <tr>
           <td>{{ text_weight }}</td>
           {% for product in products %}
@@ -114,7 +114,8 @@
         <tr>
           <td></td>
           {% for product in products %}
-          <td><input type="button" value="{{ button_cart }}" class="btn btn-primary btn-block" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" />
+          <td>
+{#            <input type="button" value="{{ button_cart }}" class="btn btn-primary btn-block" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" />#}
             <a href="{{ product.remove }}" class="btn btn-danger btn-block">{{ button_remove }}</a></td>
           {% endfor %} </tr>
       </table>
