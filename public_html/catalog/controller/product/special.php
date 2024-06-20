@@ -153,17 +153,17 @@ class ControllerProductSpecial extends Controller {
 			'href'  => $this->url->link('product/special', 'sort=pd.name&order=DESC' . $url)
 		);
 
-		$data['sorts'][] = array(
-			'text'  => $this->language->get('text_price_asc'),
-			'value' => 'ps.price-ASC',
-			'href'  => $this->url->link('product/special', 'sort=ps.price&order=ASC' . $url)
-		);
-
-		$data['sorts'][] = array(
-			'text'  => $this->language->get('text_price_desc'),
-			'value' => 'ps.price-DESC',
-			'href'  => $this->url->link('product/special', 'sort=ps.price&order=DESC' . $url)
-		);
+//		$data['sorts'][] = array(
+//			'text'  => $this->language->get('text_price_asc'),
+//			'value' => 'ps.price-ASC',
+//			'href'  => $this->url->link('product/special', 'sort=ps.price&order=ASC' . $url)
+//		);
+//
+//		$data['sorts'][] = array(
+//			'text'  => $this->language->get('text_price_desc'),
+//			'value' => 'ps.price-DESC',
+//			'href'  => $this->url->link('product/special', 'sort=ps.price&order=DESC' . $url)
+//		);
 
 		if ($this->config->get('config_review_status')) {
 			$data['sorts'][] = array(

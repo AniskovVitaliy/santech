@@ -283,17 +283,17 @@ class ControllerProductSearch extends Controller {
 				'href'  => $this->url->link('product/search', 'sort=pd.name&order=DESC' . $url)
 			);
 
-			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_price_asc'),
-				'value' => 'p.price-ASC',
-				'href'  => $this->url->link('product/search', 'sort=p.price&order=ASC' . $url)
-			);
-
-			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_price_desc'),
-				'value' => 'p.price-DESC',
-				'href'  => $this->url->link('product/search', 'sort=p.price&order=DESC' . $url)
-			);
+//			$data['sorts'][] = array(
+//				'text'  => $this->language->get('text_price_asc'),
+//				'value' => 'p.price-ASC',
+//				'href'  => $this->url->link('product/search', 'sort=p.price&order=ASC' . $url)
+//			);
+//
+//			$data['sorts'][] = array(
+//				'text'  => $this->language->get('text_price_desc'),
+//				'value' => 'p.price-DESC',
+//				'href'  => $this->url->link('product/search', 'sort=p.price&order=DESC' . $url)
+//			);
 
 			if ($this->config->get('config_review_status')) {
 				$data['sorts'][] = array(
