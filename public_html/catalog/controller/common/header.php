@@ -69,7 +69,7 @@ class ControllerCommonHeader extends Controller {
 		$data['shopping_cart'] = $this->url->link('checkout/cart');
 		$data['checkout'] = $this->url->link('checkout/checkout', '', true);
 		$data['contact'] = $this->url->link('information/contact');
-        $data['address'] = nl2br($this->config->get('config_address'));
+        //$data['address'] = nl2br($this->config->get('config_address'));
 		$data['telephone'] = $this->config->get('config_telephone');
         $data['telephone_clear'] = preg_replace('/[^\d]+/ui', '', $this->config->get('config_telephone'));
         $data['telephone_second'] = $this->config->get('config_telephone_second');
