@@ -129,7 +129,35 @@
             {% if reward %}
             <li>{{ text_reward }} {{ reward }}</li>
             {% endif %}
-              <li style="display: inline-block; padding: 0 5px; margin: 10px 0; border: 1px solid red; border-radius: 4px">Данный сайт не является интернет магазином, цены и наличие на товары уточняйте по указанным на данным сайте (телефон, email, физический адрес)</li>
+              <li style="display: inline-block; margin: 10px 0; font-size: 14px">
+                  <span style="color: red; font-weight: bold">Данный сайт не является интернет магазином, цены и наличие товаров уточняйте по указанным данным:</span>
+                  <ul style="padding: 0 0 0 15px">
+                      {% if telephone %}
+                          <li style="list-style-type: none; margin: 15px 0;">
+                              <a href="tel:+{{ telephone_clear }}">
+                                  <i class="fa fa-phone"></i> <span>{{ telephone }}</span>
+                              </a>
+                          </li>
+                      {% endif %}
+                      {% if telephone_second %}
+                          <li style="list-style-type: none; margin: 15px 0;">
+                              <a href="tel:+{{ telephone_second_clear }}">
+                                  <i class="fa fa-phone"></i> <span>{{ telephone_second }}</span>
+                              </a>
+                          </li>
+                      {% endif %}
+                      {% if email %}
+                          <li style="list-style-type: none; margin: 15px 0;">
+                              <a href="mailto:{{ email }}">
+                                  <i class="fa fa-envelope"></i> <span>{{ email }}</span>
+                              </a>
+                          </li>
+                      {% endif %}
+                      {% if address %}
+                          <li style="list-style-type: none; margin: 15px 0; font-weight: bold">{{ address }}</li>
+                      {% endif %}
+                  </ul>
+              </li>
 {#            <li>{{ text_stock }} {{ stock }}</li>#}
           </ul>
           {% if price %}
