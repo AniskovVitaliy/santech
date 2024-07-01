@@ -669,12 +669,12 @@ h2.price {
 }
 @media (max-width: 1200px) {
 	.product-thumb .button-group button, .product-thumb .button-group button + button {
-		width: 33.33%;
+		width: 100%;
 	}
 }
 @media (max-width: 767px) {
 	.product-thumb .button-group button, .product-thumb .button-group button + button {
-		width: 33.33%;
+		width: 100%;
 	}
 }
 .thumbnails {
