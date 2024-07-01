@@ -4,7 +4,7 @@
       {% for banner in banners %}
       <div class="swiper-slide text-center">
         {% if banner.link %}
-        <a href="{{ banner.link }}">
+        <a href="{{ banner.link }}" style="display: inline-block" class="text-center">
           <img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" />
           </a>
         {% else %}
@@ -23,7 +23,7 @@
 <script type="text/javascript">
   $('#carousel{{ module }}').swiper({
       mode: 'horizontal',
-      slidesPerView: $(window).width() > 556 ? 5 : 3,
+      slidesPerView: $(window).width() > 556 ? 5 : 2,
       pagination: '.carousel{{ module }}',
       paginationClickable: true,
       nextButton: '.carousel .swiper-button-next',
