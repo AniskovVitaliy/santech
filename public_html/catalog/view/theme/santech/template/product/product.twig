@@ -130,7 +130,7 @@
             <li>{{ text_reward }} {{ reward }}</li>
             {% endif %}
               <li style="display: inline-block; margin: 10px 0; font-size: 14px">
-                  <span style="color: red; font-weight: bold">Данный сайт не является интернет магазином, цены и наличие товаров уточняйте по указанным данным:</span>
+                  <span style="color: red;">Сайт не является "интернет-магазином", продажа продукции осуществляется по адресу <b>{{ address }} (2 этаж)</b>, цены и наличие можно уточнять по контактным данным приведенным ниже:</span>
                   <ul style="padding: 0 0 0 15px">
                       {% if telephone %}
                           <li style="list-style-type: none; margin: 15px 0;">
@@ -153,9 +153,7 @@
                               </a>
                           </li>
                       {% endif %}
-                      {% if address %}
-                          <li style="list-style-type: none; margin: 15px 0; font-weight: bold">{{ address }}</li>
-                      {% endif %}
+
                   </ul>
               </li>
 {#            <li>{{ text_stock }} {{ stock }}</li>#}
