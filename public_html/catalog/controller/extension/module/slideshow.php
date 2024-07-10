@@ -15,13 +15,26 @@ class ControllerExtensionModuleSlideshow extends Controller {
 		$results = $this->model_design_banner->getBanner($setting['banner_id']);
 
 		foreach ($results as $result) {
+
+            $banner = array();
+
 			if (is_file(DIR_IMAGE . $result['image'])) {
-				$data['banners'][] = array(
-					'title' => $result['title'],
-					'link'  => $result['link'],
-					'image' => $this->model_tool_image->resize($result['image'], $setting['width'], $setting['height'])
-				);
+                $banner = array(
+                    'title' => $result['title'],
+                    'link'  => $result['link'],
+                    'image' => $this->model_tool_image->resize($result['image'], $setting['width'], $setting['height'])
+                );
 			}
+
+            $mobile_image = preg_replace('/([\w\-\_\/])(\.)([\w]+)/ui', '$1-mob.$3', $result['image']);
+
+            if (is_file(DIR_IMAGE . $mobile_image)) {
+                $banner['mobile_image'] = $this->model_tool_image->resize($mobile_image, '767', $setting['height']);
+            }
+
+            if (!empty($banner)) {
+                $data['banners'][] = $banner;
+            }
 		}
 
 		$data['module'] = $module++;
