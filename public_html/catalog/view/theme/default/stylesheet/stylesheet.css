@@ -358,7 +358,7 @@ footer h5 {
 }
 .breadcrumb > li {
 	text-shadow: 0 1px 0 #FFF;
-	padding: 0 20px;
+	padding: 0 10px;
 	position: relative;
 	white-space: nowrap;
 }
@@ -370,16 +370,22 @@ footer h5 {
 	content: '';
 	display: block;
 	position: absolute;
-	top: -3px;
-	right: -5px;
-	width: 26px;
-	height: 26px;
-	border-right: 1px solid #DDD;
-	border-bottom: 1px solid #DDD;
+	top: 8px;
+	right: -4px;
+	width: 5px;
+	height: 5px;
+	border-right: 1px solid #23a1d1;
+	border-bottom: 1px solid #23a1d1;
 	-webkit-transform: rotate(-45deg);
 	-moz-transform: rotate(-45deg);
 	-o-transform: rotate(-45deg);
 	transform: rotate(-45deg);
+}
+.breadcrumb > li:last-child{
+	font-weight: bold;
+}
+.breadcrumb > li:last-child:after{
+	display: none;
 }
 html[dir=rtl] .breadcrumb > li::after {
   top: -3px;
