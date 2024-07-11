@@ -5,7 +5,13 @@
     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
     {% endfor %}
   </ul>
-  <div class="row">{{ column_left }}
+  <style>
+    #content {
+      min-height: auto;
+    }
+  </style>
+  <div class="row">
+    {{ column_left }}
     {% if column_left and column_right %}
     {% set class = 'col-sm-6' %}
     {% elseif column_left or column_right %}
@@ -15,43 +21,66 @@
     {% endif %}
     <div id="content" class="{{ class }}">{{ content_top }}
       <h1>{{ heading_title }}</h1>
-      <h3>{{ text_location }}</h3>
+{#      <h3>{{ text_location }}</h3>#}
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="row">
             {% if image %}
-            <div class="col-sm-3"><img src="{{ image }}" alt="{{ store }}" title="{{ store }}" class="img-thumbnail" /></div>
+            <div class="col-sm-3"><img src="{{ image }}" alt="{{ store }}" title="{{ store }}" class="img-thumbnail"/></div>
             {% endif %}
-            <div class="col-sm-3"><strong>{{ store }}</strong><br />
-              <address>
-              {{ address }}
-              </address>
-              {% if geocode %}
-              <a href="https://maps.google.com/maps?q={{ geocode|url_encode }}&hl={{ geocode_hl }}&t=m&z=15" target="_blank" class="btn btn-info"><i class="fa fa-map-marker"></i> {{ button_map }}</a>
-              {% endif %}
-            </div>
-            <div class="col-sm-3"><strong>{{ text_telephone }}</strong><br>
-              {{ telephone }}<br />
-              <br />
-              {% if fax %}
-              <strong>{{ text_fax }}</strong><br>
-              {{ fax }}
-              {% endif %}
+            <div class="col-sm-3">
+              <strong>{{ store }}</strong>
+              <br/>
+              <address>{{ address }}</address>
+{#              {% if geocode %}#}
+{#              <a href="https://maps.google.com/maps?q={{ geocode|url_encode }}&hl={{ geocode_hl }}&t=m&z=15" target="_blank" class="btn btn-info"><i class="fa fa-map-marker"></i> {{ button_map }}</a>#}
+{#              {% endif %}#}
             </div>
             <div class="col-sm-3">
-              {% if open %}
-              <strong>{{ text_open }}</strong><br />
-              {{ open }}<br />
-              <br />
-              {% endif %}
-              {% if comment %}
-              <strong>{{ text_comment }}</strong><br />
-              {{ comment }}
-              {% endif %}
+              <strong>{{ text_telephone }}</strong>
+              <br>
+              <a href="tel:+{{ telephone_clear }}">
+                <i class="fa fa-phone"></i> <span>{{ telephone }}</span>
+              </a>
+{#              <br/>#}
+{#              <br/>#}
+{#              {% if fax %}#}
+{#              <strong>{{ text_fax }}</strong>#}
+{#              <br>#}
+{#              {{ fax }}#}
+{#              {% endif %}#}
+            </div>
+            <div class="col-sm-3">
+              <strong>{{ text_telephone }}</strong>
+              <br>
+              <a href="tel:+{{ telephone_second_clear }}">
+                <i class="fa fa-phone"></i> <span>{{ telephone_second }}</span>
+              </a>
+{#              {% if open %}#}
+{#              <strong>{{ text_open }}</strong>#}
+{#              <br/>#}
+{#              {{ open }}#}
+{#              <br />#}
+{#              <br />#}
+{#              {% endif %}#}
+{#              {% if comment %}#}
+{#              <strong>{{ text_comment }}</strong>#}
+{#              <br/>#}
+{#              {{ comment }}#}
+{#              {% endif %}#}
+            </div>
+            <div class="col-sm-3">
+              <strong>{{ text_email }}</strong>
+              <br>
+              <a href="mailto:{{ our_email }}">
+                <i class="fa fa-envelope"></i> <span>{{ our_email }}</span>
+              </a>
             </div>
           </div>
         </div>
       </div>
+      <p><img src="/image/catalog/tc-astoria.webp" style="width: 100%;"></p>
+      <p><br><img src="/image/catalog/astoria-rolet.webp" style="width: 100%;"></p>
       {% if locations %}
       <h3>{{ text_store }}</h3>
       <div class="panel-group" id="accordion">
@@ -100,44 +129,44 @@
         {% endfor %}
       </div>
       {% endif %}
-      <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
-        <fieldset>
-          <legend>{{ text_contact }}</legend>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="name" value="{{ name }}" id="input-name" class="form-control" />
-              {% if error_name %}
-              <div class="text-danger">{{ error_name }}</div>
-              {% endif %}
-            </div>
-          </div>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-email">{{ entry_email }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="email" value="{{ email }}" id="input-email" class="form-control" />
-              {% if error_email %}
-              <div class="text-danger">{{ error_email }}</div>
-              {% endif %}
-            </div>
-          </div>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-enquiry">{{ entry_enquiry }}</label>
-            <div class="col-sm-10">
-              <textarea name="enquiry" rows="10" id="input-enquiry" class="form-control">{{ enquiry }}</textarea>
-              {% if error_enquiry %}
-              <div class="text-danger">{{ error_enquiry }}</div>
-              {% endif %}
-            </div>
-          </div>
-          {{ captcha }}
-        </fieldset>
-        <div class="buttons">
-          <div class="pull-right">
-            <input class="btn btn-primary" type="submit" value="{{ button_submit }}" />
-          </div>
-        </div>
-      </form>
+{#      <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">#}
+{#        <fieldset>#}
+{#          <legend>{{ text_contact }}</legend>#}
+{#          <div class="form-group required">#}
+{#            <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>#}
+{#            <div class="col-sm-10">#}
+{#              <input type="text" name="name" value="{{ name }}" id="input-name" class="form-control" />#}
+{#              {% if error_name %}#}
+{#              <div class="text-danger">{{ error_name }}</div>#}
+{#              {% endif %}#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="form-group required">#}
+{#            <label class="col-sm-2 control-label" for="input-email">{{ entry_email }}</label>#}
+{#            <div class="col-sm-10">#}
+{#              <input type="text" name="email" value="{{ email }}" id="input-email" class="form-control" />#}
+{#              {% if error_email %}#}
+{#              <div class="text-danger">{{ error_email }}</div>#}
+{#              {% endif %}#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="form-group required">#}
+{#            <label class="col-sm-2 control-label" for="input-enquiry">{{ entry_enquiry }}</label>#}
+{#            <div class="col-sm-10">#}
+{#              <textarea name="enquiry" rows="10" id="input-enquiry" class="form-control">{{ enquiry }}</textarea>#}
+{#              {% if error_enquiry %}#}
+{#              <div class="text-danger">{{ error_enquiry }}</div>#}
+{#              {% endif %}#}
+{#            </div>#}
+{#          </div>#}
+{#          {{ captcha }}#}
+{#        </fieldset>#}
+{#        <div class="buttons">#}
+{#          <div class="pull-right">#}
+{#            <input class="btn btn-primary" type="submit" value="{{ button_submit }}" />#}
+{#          </div>#}
+{#        </div>#}
+{#      </form>#}
       {{ content_bottom }}</div>
     {{ column_right }}</div>
 </div>

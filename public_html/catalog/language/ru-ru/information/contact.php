@@ -8,6 +8,7 @@ $_['text_store']     = 'Наши магазины';
 $_['text_contact']   = 'Форма обратной связи';
 $_['text_address']   = 'Адрес';
 $_['text_telephone'] = 'Телефон';
+$_['text_email']     = 'Email';
 $_['text_fax']       = 'Факс';
 $_['text_open']      = 'Режим работы';
 $_['text_comment']   = 'Дополнительная информация';

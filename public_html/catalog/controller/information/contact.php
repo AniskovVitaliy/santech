@@ -73,10 +73,17 @@ class ControllerInformationContact extends Controller {
 		$data['address'] = nl2br($this->config->get('config_address'));
 		$data['geocode'] = $this->config->get('config_geocode');
 		$data['geocode_hl'] = $this->config->get('config_language');
-		$data['telephone'] = $this->config->get('config_telephone');
+		//$data['telephone'] = $this->config->get('config_telephone');
 		$data['fax'] = $this->config->get('config_fax');
 		$data['open'] = nl2br($this->config->get('config_open'));
 		$data['comment'] = $this->config->get('config_comment');
+
+        $data['telephone'] = $this->config->get('config_telephone');
+        $data['telephone_clear'] = preg_replace('/[^\d]+/ui', '', $this->config->get('config_telephone'));
+        $data['telephone_second'] = $this->config->get('config_telephone_second');
+        $data['telephone_second_clear'] = preg_replace('/[^\d]+/ui', '', $this->config->get('config_telephone_second'));
+
+        $data['our_email'] = $this->config->get('config_email');
 
 		$data['locations'] = array();
 
