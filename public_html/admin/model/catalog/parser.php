@@ -134,7 +134,7 @@ class ModelCatalogParser extends Model
                 continue;
             }
 
-            $description = !empty($item['product_description']['description']) ? '<p>' . $this->translit($item['product_description']['description']) . '</p>' : '';
+            $description = !empty($item['product_description']['description']) ? '<p>' . transliteration($item['product_description']['description']) . '</p>' : '';
 
             if ($item['product_attribute']) {
                 $product_attributes = array_filter($item['product_attribute']);
@@ -147,8 +147,8 @@ class ModelCatalogParser extends Model
 
                 foreach ($product_attributes_name as $row) {
                     $description .= '<tr>';
-                    $description .= '<td>' . $this->translit($row['name']) . '</td>';
-                    $description .= '<td>' . $this->translit($product_attributes[(int)$row['attribute_id']]) . '</td>';
+                    $description .= '<td>' . transliteration($row['name']) . '</td>';
+                    $description .= '<td>' . transliteration($product_attributes[(int)$row['attribute_id']]) . '</td>';
                     $description .= '</tr>';
                 }
 
@@ -158,12 +158,12 @@ class ModelCatalogParser extends Model
             $product_description_query = "INSERT INTO " . DB_PREFIX . "product_description 
                             SET product_id = '" . (int)$product_id . "', 
                                 language_id = '" . (int)$language['id'] . "',
-                                name = '" . $this->db->escape($this->translit($item['product_description']['name'])) . "', 
+                                name = '" . $this->db->escape(transliteration($item['product_description']['name'])) . "', 
                                 description = '" . $this->db->escape(htmlspecialchars($description)) . "', 
-                                tag = '" . $this->db->escape(!empty($item['product_description']['tag']) ? $this->translit($item['product_description']['tag']) : '') . "', 
-                                meta_title = '" . $this->db->escape($this->translit($item['product_description']['meta_title']) . ' buy in Gomel on Mazurova street, 28B') . "', 
-                                meta_description = '" . $this->db->escape(!empty($item['product_description']['meta_description']) ? $this->translit($item['product_description']['meta_description']) : '') . " buy in Gomel on Mazurova street, 28B',
-                                meta_keyword = '" . $this->db->escape(!empty($item['product_description']['meta_keyword']) ? $this->translit($item['product_description']['meta_keyword']) : '') . " buy in Gomel on Mazurova street, 28B'";
+                                tag = '" . $this->db->escape(!empty($item['product_description']['tag']) ? transliteration($item['product_description']['tag']) : '') . "', 
+                                meta_title = '" . $this->db->escape(transliteration($item['product_description']['meta_title']) . ' buy in Gomel on Mazurova street, 28B') . "', 
+                                meta_description = '" . $this->db->escape(!empty($item['product_description']['meta_description']) ? transliteration($item['product_description']['meta_description']) : '') . " buy in Gomel on Mazurova street, 28B',
+                                meta_keyword = '" . $this->db->escape(!empty($item['product_description']['meta_keyword']) ? transliteration($item['product_description']['meta_keyword']) : '') . " buy in Gomel on Mazurova street, 28B'";
 
             $this->db->query($product_description_query);
         }
@@ -210,7 +210,7 @@ class ModelCatalogParser extends Model
                 foreach ($item['product_attribute'] as $attribute_id => $attribute_value) {
                     if ($attribute_value) {
                         $this->db->query("DELETE FROM " . DB_PREFIX . "product_attribute WHERE product_id = '" . (int)$product_id . "' AND attribute_id = '" . (int)$attribute_id . "' AND language_id = '" . (int)$language['id'] . "'");
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_attribute SET product_id = '" . (int)$product_id . "', attribute_id = '" . (int)$attribute_id . "', language_id = '" . (int)$language['id'] . "', text = '" . $this->db->escape($this->translit($attribute_value)) . "'");
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "product_attribute SET product_id = '" . (int)$product_id . "', attribute_id = '" . (int)$attribute_id . "', language_id = '" . (int)$language['id'] . "', text = '" . $this->db->escape(transliteration($attribute_value)) . "'");
                     }
                 }
             }
@@ -269,27 +269,6 @@ class ModelCatalogParser extends Model
         $this->cache->delete('product');
 
         return ['unique' => true, 'product_id' => $product_id];
-    }
-
-    private function translit($value)
-    {
-        $converter = [
-            'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd',
-            'е' => 'e', 'ё' => 'e', 'ж' => 'zh', 'з' => 'z', 'и' => 'i',
-            'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n',
-            'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't',
-            'у' => 'u', 'ф' => 'f', 'х' => 'h', 'ц' => 'c', 'ч' => 'ch',
-            'ш' => 'sh', 'щ' => 'sch', 'ь' => '', 'ы' => 'y', 'ъ' => '',
-            'э' => 'e', 'ю' => 'yu', 'я' => 'ya',
-        ];
-
-        $value = mb_strtolower($value);
-        $value = strtr($value, $converter);
-        $value = mb_ereg_replace('[^-0-9a-z]', '_', $value);
-        $value = mb_ereg_replace('[-]+', '_', $value);
-        $value = trim($value, '_');
-
-        return $value;
     }
 
 }
