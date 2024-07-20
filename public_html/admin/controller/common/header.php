@@ -1,6 +1,12 @@
 <?php
 class ControllerCommonHeader extends Controller {
 	public function index() {
+
+//        if (!in_array($_SERVER['REMOTE_ADDR'], ADMIN_IP)) {
+//            header('Location: ' . HTTP_CATALOG . 'index.php?route=error/not_found');
+//            exit;
+//        }
+
 		$data['title'] = $this->document->getTitle();
 
 		if ($this->request->server['HTTPS']) {

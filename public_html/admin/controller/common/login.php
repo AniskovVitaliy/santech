@@ -3,12 +3,6 @@ class ControllerCommonLogin extends Controller {
 	private $error = array();
 
 	public function index() {
-
-        if (!in_array($_SERVER['REMOTE_ADDR'], ADMIN_IP)) {
-            header('Location: ' . HTTP_CATALOG . 'index.php?route=error/not_found');
-            exit;
-        }
-
 		$this->load->language('common/login');
 
 		$this->document->setTitle($this->language->get('heading_title'));
