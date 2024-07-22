@@ -1,7 +1,5 @@
 <?php
 
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
-
 class ControllerCatalogParser extends Controller
 {
     private array $error = [];
@@ -20,17 +18,7 @@ class ControllerCatalogParser extends Controller
 
     protected function getList()
     {
-        $data['breadcrumbs'] = [];
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
-        ];
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('catalog/parser', 'user_token=' . $this->session->data['user_token'], true)
-        ];
+        $data['breadcrumbs'] = $this->getBreadcrumbs();
 
         $files = preg_grep('/\.xlsx/', scandir(DIR_DOWNLOAD));
 
@@ -64,24 +52,22 @@ class ControllerCatalogParser extends Controller
     {
         set_time_limit(1000);
 
-        $this->load->model('catalog/parser');
         $this->load->language('catalog/parser');
-
         $this->document->setTitle($this->language->get('heading_title'));
 
         $this->load->model('catalog/parser');
-
-        $xlsx = [];
+        $this->load->model('catalog/parser');
+        $this->load->library('fparser');
 
         if ($this->request->get['file_name']) {
-            $xlsx = $this->getExelData(DIR_DOWNLOAD . $this->request->get['file_name']);
+            $this->fparser->load(DIR_DOWNLOAD . $this->request->get['file_name'], 'exel');
         }
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
 
             $form_data = $this->getParserData($this->request->post['db'], $this->request->post['xlsx']);
 
-            foreach ($xlsx['data'] as $xlsx_line => $xlsx_item) {
+            foreach ($this->fparser->get('data') as $xlsx_line => $xlsx_item) {
                 $product_data = $this->prepareData($form_data, $xlsx_item);
 
                 if ($this->validateForm($product_data, $xlsx_line)) {
@@ -96,7 +82,7 @@ class ControllerCatalogParser extends Controller
 
         }
 
-        $this->getForm($xlsx);
+        $this->getForm($this->fparser->get());
     }
 
     protected function getForm($xlsx)
@@ -110,17 +96,7 @@ class ControllerCatalogParser extends Controller
             $url .= '&file_name=' . $this->request->get['file_name'];
         }
 
-        $data['breadcrumbs'] = array();
-
-        $data['breadcrumbs'][] = array(
-            'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
-        );
-
-        $data['breadcrumbs'][] = array(
-            'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('catalog/parser', 'user_token=' . $this->session->data['user_token'] . $url, true)
-        );
+        $data['breadcrumbs'] = $this->getBreadcrumbs();
 
         $data['action'] = $this->url->link('catalog/parser/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
 
@@ -132,42 +108,7 @@ class ControllerCatalogParser extends Controller
         $data['db_tables']['product_attribute'] = $this->model_catalog_parser->getAttributes();
         $data['db_tables']['product_filter'] = $this->model_catalog_parser->getFilters();
 
-        $data['exception_columns']['product'] = [
-            'product_id',
-            'date_added',
-            'date_available',
-            'date_modified',
-            'sku',
-            'upc',
-            'ean',
-            'jan',
-            'isbn',
-            'mpn',
-            'location',
-            'tax_class_id',
-            'weight',
-            'weight_class_id',
-            'length',
-            'length_class_id',
-            'width',
-            'height',
-            'subtract',
-            'minimum',
-            'viewed',
-            'points',
-            'shipping',
-            'sort_order',
-
-        ];
-
-        $data['exception_columns']['product_description'] = [
-            'product_id',
-            'language_id'
-        ];
-
-        $data['exception_columns']['product_to_category'] = [
-            'product_id',
-        ];
+        $data['exception_columns'] = $this->getExceptionColumns();
 
         $data['xlsx_fields'] = $xlsx['fields'];
 
@@ -185,42 +126,6 @@ class ControllerCatalogParser extends Controller
         $data['footer'] = $this->load->controller('common/footer');
 
         $this->response->setOutput($this->load->view('catalog/parser/parser_form', $data));
-    }
-
-    /**
-     * =================================
-     * Получает данные exel в виде array
-     * =================================
-     *
-     * @param $file - путь к файлу
-     * @return array
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     */
-    private function getExelData($file): array
-    {
-        $data = [];
-
-        if (file_exists($file)) {
-            $reader = new Xlsx();
-            $speedsheet = $reader->load($file);
-
-            $data = $speedsheet->getActiveSheet()->toArray(null, true, true, true);
-        }
-
-        if ($data[1]) {
-            $data = [
-                'fields' => array_shift($data),
-                'data' => $data
-            ];
-
-            $data['fields'] = array_diff($data['fields'], [null]);
-
-            foreach ($data['data'] as $key => $value) {
-                if ($value[array_key_first($value)] === null) unset($data['data'][$key]);
-            }
-        }
-
-        return $data;
     }
 
     private function getParserData($form_db, $form_xlsx)
@@ -282,6 +187,67 @@ class ControllerCatalogParser extends Controller
         }
 
         return empty($error);
+    }
+
+    private function getBreadcrumbs(): array
+    {
+        $breadcrumbs = [];
+
+        $breadcrumbs[] = [
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
+        ];
+
+        $breadcrumbs[] = [
+            'text' => $this->language->get('heading_title'),
+            'href' => $this->url->link('catalog/parser', 'user_token=' . $this->session->data['user_token'], true)
+        ];
+
+        return $breadcrumbs;
+    }
+
+    /**
+     * Поля из DB которые не следует выводить
+     *
+     * @return string[][]
+     */
+    private function getExceptionColumns(): array
+    {
+        return [
+            'product' => [
+                'product_id',
+                'date_added',
+                'date_available',
+                'date_modified',
+                'sku',
+                'upc',
+                'ean',
+                'jan',
+                'isbn',
+                'mpn',
+                'location',
+                'tax_class_id',
+                'weight',
+                'weight_class_id',
+                'length',
+                'length_class_id',
+                'width',
+                'height',
+                'subtract',
+                'minimum',
+                'viewed',
+                'points',
+                'shipping',
+                'sort_order'
+            ],
+            'product_description' => [
+                'product_id',
+                'language_id'
+            ],
+            'product_to_category' => [
+                'product_id'
+            ]
+        ];
     }
 
 }
