@@ -20,11 +20,12 @@ $_['text_keyword']           = 'Должно быть уникальным на 
 // Column
 $_['column_name']            = 'Название товара';
 $_['column_model']           = 'Модель';
-$_['column_image']           = 'Изображения';
-$_['column_price']           = 'Цена на сайте';
-$_['column_quantity']        = 'Количество';
+$_['column_image']           = 'Изобр.';
+$_['column_price']           = 'Цена';
+$_['column_quantity']        = 'Кол-во';
 $_['column_status']          = 'Статус';
 $_['column_date']            = 'Дата модиф.';
+$_['column_category']        = 'ID кат.';
 $_['column_action']          = 'Действие';
 
 // Entry
@@ -34,6 +35,7 @@ $_['entry_meta_title']       = 'Мета-тег Title';
 $_['entry_meta_keyword']     = 'Мета-тег Keyword';
 $_['entry_meta_description'] = 'Мета-тег Description';
 $_['entry_store']            = 'Магазины';
+$_['entry_category_id']      = 'ID Категории';
 $_['entry_keyword']          = 'SEO URL';
 $_['entry_model']            = 'Модель';
 $_['entry_sku']              = 'Артикул';

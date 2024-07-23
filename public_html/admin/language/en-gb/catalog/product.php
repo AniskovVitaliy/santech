@@ -24,6 +24,8 @@ $_['column_image']           = 'Image';
 $_['column_price']           = 'Price';
 $_['column_quantity']        = 'Quantity';
 $_['column_status']          = 'Status';
+$_['column_date']            = 'Modification date';
+$_['column_category']        = 'ID category';
 $_['column_action']          = 'Action';
 
 // Entry
@@ -33,6 +35,7 @@ $_['entry_meta_title']       = 'Meta Tag Title';
 $_['entry_meta_keyword']     = 'Meta Tag Keywords';
 $_['entry_meta_description'] = 'Meta Tag Description';
 $_['entry_store']            = 'Stores';
+$_['entry_category_id']      = 'Category ID';
 $_['entry_keyword']          = 'Keyword';
 $_['entry_model']            = 'Model';
 $_['entry_sku']              = 'SKU';
