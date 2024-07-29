@@ -2,6 +2,10 @@ FROM php:8.2-fpm
 
 COPY ./docker/php/php.ini /usr/local/etc/php/conf.d/php.ini
 
+CMD touch /usr/local/php-logs/php-fpm.log && \
+  chmod 666 /usr/local/php-logs/php-fpm.log && \
+  php-fpm -F
+
 # base command for ubuntu of container
 RUN apt-get update  \
     && apt-get install -y \

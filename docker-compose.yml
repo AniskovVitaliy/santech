@@ -20,6 +20,7 @@ services:
       dockerfile: './docker/php/Dockerfile'
     volumes:
       - './:/var/www'
+      - './logs:/usr/local/php-logs'
     environment:
       - 'PHP_IDE_CONFIG=serverName=santechdebug'
     depends_on:
