@@ -6,11 +6,11 @@ services:
     image: 'nginx:stable'
     volumes:
       - './:/var/www'
-      - './docker/nginx/conf.d/:/etc/nginx/conf.d/'
+      - './docker/nginx/conf.d/prod/:/etc/nginx/conf.d/'
 #      - '/etc/nginx/ssl-certs/:/etc/nginx/ssl-certs/'
     ports:
       - "80:80"
-#      - "443:443"
+      - "443:443"
     depends_on:
       - php
     container_name: cn_nginx
