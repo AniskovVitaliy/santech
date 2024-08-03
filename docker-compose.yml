@@ -3,10 +3,11 @@ version: '3.5'
 services:
 
   web:
-    image: 'nginx:stable'
+    build:
+      dockerfile: './docker/nginx/Dockerfile'
     volumes:
       - './:/var/www'
-      - './docker/nginx/conf.d/:/etc/nginx/conf.d/'
+      - './docker/nginx/conf.d/local/:/etc/nginx/conf.d/'
     ports:
       - "80:80"
     depends_on:
