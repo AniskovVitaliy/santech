@@ -3,8 +3,7 @@ version: '3.5'
 services:
 
   web:
-    build:
-      dockerfile: './docker/nginx/Dockerfile'
+    image: 'nginx:stable'
     volumes:
       - './:/var/www'
       - './docker/nginx/conf.d/local/:/etc/nginx/conf.d/'
