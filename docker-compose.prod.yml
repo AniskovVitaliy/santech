@@ -8,7 +8,8 @@ services:
     volumes:
       - './:/var/www'
       - './docker/nginx/conf.d/prod/:/etc/nginx/conf.d/'
-      - '/etc/nginx/ssl-certs/:/etc/nginx/ssl-certs/'
+      - '/etc/letsencrypt/ssl/fullchain.pem:/etc/nginx/ssl/fullchain.pem'
+      - '/etc/letsencrypt/ssl/privkey.pem:/etc/nginx/ssl/privkey.pem'
     ports:
       - "80:80"
       - "443:443"
