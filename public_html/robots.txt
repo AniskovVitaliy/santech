@@ -98,3 +98,4 @@ Allow: /catalog/view/javascript/
 Allow: /catalog/view/theme/*/
 Clean-param: tracking
 
+Host: https://sm28b.by/

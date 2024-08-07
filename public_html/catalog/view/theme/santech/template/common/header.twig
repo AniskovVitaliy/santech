@@ -17,7 +17,8 @@
 {% if keywords %}
 <meta name="keywords" content="{{ keywords }}" />
 {% endif %}
-
+<meta name="robots" content="index,follow"/>
+<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE"/>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -55,6 +56,13 @@
 {% for analytic in analytics %}
 {{ analytic }}
 {% endfor %}
+<meta property="og:title" content="{{ title }}"/>
+<meta property="og:description" content="{{ description }}"/>
+<meta property="og:url" content="{{ url }}"/>
+<meta property="og:image" content="{{ logo }}"/>
+<meta property="og:site_name" content="Магазин сантехники sm28b"/>
+<meta property="og:locale" content="ru_BY"/>
+<meta property="og:type" content="website"/>
 </head>
 <body>
 <nav id="top">
