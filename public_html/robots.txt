@@ -98,6 +98,6 @@ Allow: /catalog/view/javascript/
 Allow: /catalog/view/theme/*/
 Clean-param: tracking
 
-Sitemap: http://sm28b.by/index.php?route=extension/feed/google_sitemap
+Sitemap: https://sm28b.by/index.php?route=extension/feed/google_sitemap
 
 Host: https://sm28b.by/
