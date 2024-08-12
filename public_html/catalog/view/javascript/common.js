@@ -144,7 +144,7 @@ $(document).ready(function() {
 	});
 
 	if (getCookie('isYouKnowAboutWebSite') === undefined) {
-		$('body').before('<div class="alert alert-info" style="position: fixed;	z-index: 999; width: 100%; border-radius: 0; padding: 8px 40px 8px 14px; font-size: 16px; line-height: 25px"><i class="fa fa-info-circle"></i> Сайт не является "интернет-магазином", продажа продукции осуществляется по адресу <b>г.Гомель ул.Мазурова 28В, ТЦ Астория (2этаж)</b>, цены и наличие можно уточнять по контактным данным указанным на сайте<button type="button" class="close" style="position: absolute; top: 0; right: 10px; font-size: 40px">&times;</button></div>');
+		$('body').before('<div class="alert alert-info" style="position: fixed;	z-index: 999; width: 100%; border-radius: 0; padding: 8px 40px 8px 14px; font-size: 16px; line-height: 25px"><i class="fa fa-info-circle"></i> Сайт не является интернет-магазином. Продажа продукции осуществляется по адресу: <b>г.Гомель, ул. Мазурова 28В, ТЦ «Астория» (2 этаж)</b>. Цены и наличие можно уточнить по контактным данным, указанным на сайте<button type="button" class="close" style="position: absolute; top: 0; right: 10px; font-size: 40px">&times;</button></div>');
 	}
 
 	$('.alert.alert-info .close').click(function () {
