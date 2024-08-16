@@ -126,9 +126,9 @@ class ModelCatalogParser extends Model
                                 name = '" . $this->db->escape($item['product_description']['name']) . "', 
                                 description = '" . $this->db->escape(htmlspecialchars($description)) . "', 
                                 tag = '" . $this->db->escape(!empty($item['product_description']['tag']) ? $item['product_description']['tag'] . '' : '') . "', 
-                                meta_title = '" . $this->db->escape($item['product_description']['meta_title'] . ' купить в Гомеле по улице Мазурова, 28В') . "', 
-                                meta_description = '" . $this->db->escape(!empty($item['product_description']['meta_description']) ? $item['product_description']['meta_description'] . ' купить в Гомеле по улице Мазурова, 28В' : '') . "', 
-                                meta_keyword = '" . $this->db->escape(!empty($item['product_description']['meta_keyword']) ? $item['product_description']['meta_keyword'] . ' купить в Гомеле по улице Мазурова, 28В' : '') . "'";
+                                meta_title = '" . $this->db->escape($item['product_description']['meta_title'] . ' купить в Гомеле по улице Мазурова 28В, sm28b.by') . "', 
+                                meta_description = '" . $this->db->escape(!empty($item['product_description']['meta_description']) ? $item['product_description']['meta_description'] . ' купить в Гомеле по улице Мазурова 28В, sm28b.by' : '') . "', 
+                                meta_keyword = '" . $this->db->escape(!empty($item['product_description']['meta_keyword']) ? $item['product_description']['meta_keyword'] . ' купить в Гомеле по улице Мазурова 28В, sm28b.by' : '') . "'";
 
                 $this->db->query($product_description_query);
                 continue;
