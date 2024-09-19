@@ -39,7 +39,7 @@ services:
       - "3305:3306"
     environment:
       MYSQL_DATABASE: 'santech'
-      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     command: 'mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci'
     container_name: cn_db
     networks:
