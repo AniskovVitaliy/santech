@@ -15,6 +15,7 @@ image/
 
 .htaccess
 .htpasswd
+.env
 
 db_data/
 
