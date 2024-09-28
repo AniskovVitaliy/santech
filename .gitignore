@@ -9,7 +9,9 @@
 /public_html/admin/config.php
 /public_html/config.php
 
+m_source/
 m_api/
+
 storage/
 storage_/
 image/
